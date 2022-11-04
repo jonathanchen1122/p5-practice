@@ -1,29 +1,38 @@
-const density = "++++-----       ";
+//const density = "++++-----       ";
 
-let img;
+let vid;
+let playing = true;
 
 function setup() {
   createCanvas(400, 400);
-  img = loadImage("test.jpg");
+  
+  vid = createVideo("Vid.mp4");
+  vid.size(48, 48);
+  vid.volume(1);
+  vid.loop();
+  vid.hide(); 
 } 
 
 function draw() {
-  background(220);
-  image(img, 0, 0, width, height); 
+  //background(220);
+  let img = vid.get();
   
-  let w = width/2;
-  let h = height/2;
-  img.loadPixels();
-  for ( let i = 0; i < img.width; i++) {
-    for (let j = 0; j < img.height; j++) {
-      const pixelIndex = (i+j*img.width)*4;
-      const r = img.pixels[pixelIndex + 0];  
-      const g = img.pixels[pixelIndex + 1];  
-      const b = img.pixels[pixelIndex + 2];  
+  //image(vid, 0, 0, width, height); 
+  let w = width/vid.width;
+  let h = height/vid.height;
+  vid.loadPixels();
+  for ( let i = 0; i < vid.width; i++) {
+    for (let j = 0; j < vid.height; j++) {
+      const pixelIndex = (i+j*vid.width)*4;
+      const r = vid.pixels[pixelIndex + 0];  
+      const g = vid.pixels[pixelIndex + 1];  
+      const b = vid.pixels[pixelIndex + 2];  
+      const avg = (r + b + g)/3;
       
       noStroke();
-      fill(r,g,b);
-      square(i*w, j*h,w);
+      fill(avg);
+      //square(i*w, j*h,w);
+      text('0',i*w,j*h);
     }
   }
-} 
+}
